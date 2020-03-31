@@ -1,9 +1,9 @@
-import  React, { useState } from 'react';
+import React, { useState } from 'react';
 
 import './styles.css';
 
 import LogoImg from '../../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi'
 
 import Api from '../../services/api'
@@ -15,23 +15,24 @@ export default function Register() {
     const [city, setCity] = new useState('');
     const [uf, setUf] = new useState('');
 
+    const history = useHistory();
+
     async function handleRegister(e) {
         e.preventDefault();
 
         const data = {
-            name, 
-            email, 
+            name,
+            email,
             whatsapp,
-            city, 
+            city,
             uf
         };
-        
-       try
-       {
-            const response = await Api.post('ongs', data);
 
-            alert(`seu id de acesso: ${response.data.id}`)
-        } catch(err) {
+        try {
+            const response = await Api.post('ongs', data);
+            alert(`seu id de acesso: ${response.data.id}`);
+            history.push('/');
+        } catch (err) {
             alert('Erro no cadastro tente novamente')
         }
     }
@@ -51,31 +52,31 @@ export default function Register() {
                     </Link>
                 </section>
                 <form onSubmit={handleRegister}>
-                    <input 
+                    <input
                         placeholder="Nome da ONG"
                         value={name}
                         onChange={e => setName(e.target.value)}
                     />
-                    <input 
-                        type="email" 
+                    <input
+                        type="email"
                         placeholder="Email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                     />
-                    <input 
+                    <input
                         placeholder="WhatsApp"
                         value={whatsapp}
                         onChange={e => setWhatsapp(e.target.value)}
                     />
 
                     <div className="input-group">
-                        <input 
+                        <input
                             placeholder="Cidade"
                             value={city}
                             onChange={e => setCity(e.target.value)}
                         />
-                        <input 
-                            placeholder="UF" 
+                        <input
+                            placeholder="UF"
                             style={{ width: 80 }}
                             value={uf}
                             onChange={e => setUf(e.target.value)}
